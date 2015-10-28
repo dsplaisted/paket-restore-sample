@@ -57,4 +57,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\..\packages\StrongNamer\build\StrongNamer.targets" Condition="Exists('..\..\packages\StrongNamer\build\StrongNamer.targets')" Label="Paket" />
 </Project>
