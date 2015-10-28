@@ -198,3 +198,4 @@ FakesAssemblies/
 # NuGet lock file
 project.lock.json
 .nuget/NuGet.exe
+.paket/paket.exe
