@@ -37,4 +37,43 @@
   <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">
     <Exec Command="$(RestoreCommand)" IgnoreStandardErrorWarningFormat="true" WorkingDirectory="$(PaketRootPath)" Condition="Exists('$(PaketReferences)')" />
   </Target>
+
+  <!-- Targets defined as BeforeTargets="Build" or AfterTargets="Build" (and the same thing with Clean) may not work correctly since Build and Clean
+       have been redefined.  The fix is to modify BuildDependsOn for targets than need to run before the build and use the AfterBuild target for
+       targets than need to run after the build. -->
+  
+  <Target
+      Name="PaketBuild"
+      Condition=" '$(_InvalidConfigurationWarning)' != 'true' "
+      DependsOnTargets="$(BuildDependsOn)"
+      Returns="$(TargetPath)">
+  </Target>
+
+  <Target
+    Name="Build"
+    DependsOnTargets="RestorePackages"
+    Returns="$(TargetPath)">
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)"
+             Targets="PaketBuild"
+             Properties="Configuration=$(Configuration)"
+             />
+    
+  </Target>
+
+  <Target
+      Name="PaketClean"
+      Condition=" '$(_InvalidConfigurationWarning)' != 'true' "
+      DependsOnTargets="$(CleanDependsOn)" />
+
+  <Target
+    Name="Clean"
+    DependsOnTargets="RestorePackages">
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)"
+             Targets="PaketClean"
+             Properties="Configuration=$(Configuration)"
+             />
+  </Target>
+  
 </Project>
