@@ -56,7 +56,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)"
              Targets="PaketBuild"
-             Properties="Configuration=$(Configuration)"
+             Properties="Configuration=$(Configuration);PaketInnerBuild=true"
              />
     
   </Target>
@@ -72,7 +72,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)"
              Targets="PaketClean"
-             Properties="Configuration=$(Configuration)"
+             Properties="Configuration=$(Configuration);PaketInnerBuild=true"
              />
   </Target>
   
